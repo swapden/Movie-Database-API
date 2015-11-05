@@ -3,6 +3,7 @@ import os
 
 DEBUG = True
 TEMPLATE_DEBUG = True
+STATIC_ROOT = 'staticfiles'
 
 DATABASES = {
     "default": {
