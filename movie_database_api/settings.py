@@ -21,7 +21,7 @@ SITE_ROOT = os.path.dirname(PROJECT_ROOT)
 SECRET_KEY = 'q)vr-bwz&k@5*njajb&!)ih-md3dxbnpau*)sld3=a5d!%)!8l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 
