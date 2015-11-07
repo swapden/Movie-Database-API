@@ -11,7 +11,7 @@ from rest_framework.reverse import reverse
 #Using the django url filter module for filtering/ Serach 
 from url_filter.filtersets import ModelFilterSet 
 from movie_api.models import Movie, Genre, Comment
-from movie_api.serializers import MovieSerializer, GenreSerializer, UserSerializer, CommentSerializer
+from movie_api.serializers import *
 from movie_api.permissions import IsAdminOrReadOnly, IsAdminOrIsOwner, IsOwnerOrReadOnly
 
 #API Root 
@@ -41,6 +41,14 @@ def api_root(request, format=None):
 
 
 #************************************* Filters *************************************
+
+class UserFilterSet(ModelFilterSet):
+    """
+    Model filter for User model
+    """
+    class Meta(object):
+        model = User
+
 class MovieFilterSet(ModelFilterSet):
     """
     Model filter for Movie model
@@ -72,6 +80,24 @@ class UserCreate(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
 
+class GenreCreate(generics.CreateAPIView):
+    """
+    View to add new movies.
+    Only Admin/Staff users have access to this view. 
+    """
+    permission_classes = (permissions.IsAdminUser,)
+    serializer_class = GenreSerializer
+
+
+class MovieCreate(generics.CreateAPIView):
+    """
+    View to add new genres.
+    Only Admin/Staff users have access to this view. 
+    """
+    permission_classes = (permissions.IsAdminUser,)
+    serializer_class = MovieSerializer
+
+
 class UserList(generics.ListAPIView):
     """
     List all the registed users.
@@ -79,31 +105,27 @@ class UserList(generics.ListAPIView):
     """
     permission_classes = (permissions.IsAdminUser,)
     queryset = User.objects.all()
-    serializer_class = UserSerializer  
+    serializer_class = UserListSerializer  
+    filter_class = UserFilterSet
 
-class MovieList(generics.ListCreateAPIView):
+class MovieList(generics.ListAPIView):
     """
-    List and Create Movies. 
-    User can list all the existing Movies and create new ones. User can assign the existing Genres or 
-    Create new Genres and assign to Movie.
-    Only Admin/Staff user can create the Movies. 
-    All other users can see the existing Movies.
+    User can list all the existing Movies and search based on movie name, director, IMDB score etc.
+    All users have access to this view.
     """
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
+    serializer_class = MovieListSerializer
     filter_class = MovieFilterSet
 
-class GenreList(generics.ListCreateAPIView):
+class GenreList(generics.ListAPIView):
     """
-    List and Create Genres. 
-    User can list all the existing Genres or Create new Genres.
-    Only Admin/Staff user can create the Genres. 
-    All other users can see the existing Genres.
+    User can list all the existing Genres and search based on genre names.
+    All users have access to this view.
     """
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Genre.objects.all()
-    serializer_class = GenreSerializer
+    serializer_class = GenreListSerializer
     filter_class = GenreFilterSet
 
 class CommentList(generics.ListCreateAPIView):

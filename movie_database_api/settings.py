@@ -64,8 +64,7 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['[movie-database-api].herokuapp.com']
 
 # Application definition
 

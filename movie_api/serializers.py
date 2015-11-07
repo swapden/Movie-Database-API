@@ -5,9 +5,34 @@ from rest_framework import serializers
 from movie_api.models import Movie, Genre, Comment
 from django.contrib.auth.models import User
 
+
+class UserListSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer to list all the Users
+    """
+    class Meta:
+        model = User
+        fields = ('url', 'username')
+
+class GenreListSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer to list all the Genres
+    """
+    class Meta:
+        model = Genre
+        fields = ('url', 'genre_name')
+
+class MovieListSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    Serializer to list all the movies
+    """
+    class Meta:
+        model = Movie
+        fields = ('url', 'movie_name')
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
-    Serializer for User model. User model is from django.contrib.auth.models
+    Serializer to create, update Users
     """
     comments = serializers.HyperlinkedRelatedField(many=True, view_name='comment-detail', read_only = True)
 
@@ -45,13 +70,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class GenreSerializer(serializers.HyperlinkedModelSerializer):
     """
-    Serializer for Genre model
+    Serializer to create, update Genres
     """
     movies = serializers.HyperlinkedRelatedField(many=True, view_name='movie-detail', read_only = True)
 
     class Meta:
         model = Genre
-        fields = ('url', 'genre_name', 'movies')
+        fields = ('genre_name', 'movies')
 
     def create(self, validated_data):
         """
@@ -63,15 +88,14 @@ class GenreSerializer(serializers.HyperlinkedModelSerializer):
 
 class MovieSerializer(serializers.HyperlinkedModelSerializer):
     """
-    Serializer for Movie model with nested relationship with GenreSerializer.
+    Serializer to create, update Movies
     """
-    url = serializers.HyperlinkedIdentityField(view_name='movie-detail')
-    genres = GenreSerializer(many=True) #Nested serializer 
+    genres = GenreListSerializer(many=True) #Nested serializer 
     comments = serializers.HyperlinkedRelatedField(many=True, view_name='comment-detail', read_only = True)
 
     class Meta:
         model = Movie
-        fields = ('url', 'movie_name', 'director', 'genres', 'popularity', 'imdb_score', 'comments')
+        fields = ('movie_name', 'director', 'genres', 'popularity', 'imdb_score', 'comments')
 
     def create(self, validated_data):
         """

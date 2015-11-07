@@ -29,7 +29,7 @@ class IsAdminOrIsOwner(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         # Permissions are only allowed to admin or owener
-        return request.user.is_superuser or obj.username == request.user.username
+        return request.user.is_superuser or request.user.is_staff or obj.username == request.user.username
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
