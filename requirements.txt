@@ -8,7 +8,7 @@ django-toolbelt==0.0.1
 django-url-filter==0.2.0
 djangorestframework==3.3.0
 enum34==1.0.4
-gunicorn==19.3.0
+gunicorn==19.5.0
 psycopg2==2.6.1
 six==1.10.0
 static3==0.6.1
