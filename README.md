@@ -30,8 +30,8 @@ $ cat movie.json
 }
 ```
 
-Sending the POST request to add the entry
-````
+#### Sending the POST request to add the entry
+```
 $ http -a admin:admin POST https://movie-database-api.herokuapp.com/movies/add < movie.json 
 HTTP/1.1 201 CREATED
 Allow: POST, OPTIONS
@@ -64,7 +64,7 @@ X-Frame-Options: SAMEORIGIN
 
 
 #### Getting the details of Movie
-Send the GET request usind the movie id
+Send the GET request using the movie id
 ```
 $ http GET https://movie-database-api.herokuapp.com/movies/153/
 HTTP/1.1 200 OK
@@ -205,6 +205,7 @@ X-Frame-Options: SAMEORIGIN
     ]
 }
 ```
+
 ```
 $ http GET https://movie-database-api.herokuapp.com/movies/?movie_name__contains="Merry"&genres__genre_name="Comedy"
 [1] 19655
